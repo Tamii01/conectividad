@@ -1,36 +1,32 @@
 package negocio;
 
 import java.util.Objects;
-import interfaz.VisualizadorMapa;
+
 public class Localidad {
-	private String nombre;
+    private String nombre;
     private Provincia provincia;
     private double latitud;
     private double longitud;
 
     public Localidad(String nombre, Provincia provincia, double latitud, double longitud) {
-
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la localidad no puede estar vacío.");
         }
         if (provincia == null) {
             throw new IllegalArgumentException("La provincia no puede ser nula.");
         }
-        
-
         if (latitud < -90 || latitud > 90) {
-            throw new IllegalArgumentException("Latitud inválida.");
+            throw new IllegalArgumentException("Latitud inválida (debe estar entre -90 y 90).");
         }
         if (longitud < -180 || longitud > 180) {
-            throw new IllegalArgumentException("Longitud inválida.");
+            throw new IllegalArgumentException("Longitud inválida (debe estar entre -180 y 180).");
         }
 
-        this.nombre = nombre;
+        this.nombre = nombre.trim();
         this.provincia = provincia;
         this.latitud = latitud;
         this.longitud = longitud;
     }
-
 
     public String getNombre() { return nombre; }
     public Provincia getProvincia() { return provincia; }
@@ -49,8 +45,9 @@ public class Localidad {
     public int hashCode() {
         return Objects.hash(nombre.toLowerCase(), provincia);
     }
-    
-    public void dibujarEnMapa(VisualizadorMapa visualizador) {
-        visualizador.dibujarPunto(this.latitud, this.longitud, this.nombre);
+
+    @Override
+    public String toString() {
+        return nombre + " (" + provincia + ")";
     }
 }
